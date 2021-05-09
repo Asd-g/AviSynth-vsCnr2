@@ -45,7 +45,7 @@ vsCnr2 (clip input, string "mode", float "scdthr", int "ln", int "lm", int "un",
     
 - sceneChroma\
     If True, the chroma is considered in the scene change detection.\
-    Default: False:
+    Default: False.
     
 # Building
 
