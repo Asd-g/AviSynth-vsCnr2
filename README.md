@@ -1,4 +1,4 @@
-# Description
+## Description
 
 Cnr2 is a temporal denoiser designed to denoise only the chroma.
 
@@ -8,13 +8,19 @@ Due to the way it works, Cnr2 is forced to run in a single thread. Cnr2 will als
 
 This is [a port of the VapourSynth plugin Cnr2](https://github.com/dubhater/vapoursynth-cnr2).
 
-# Usage
+### Requirements:
+
+- AviSynth 2.60 / AviSynth+ 3.4 or later
+
+- Microsoft VisualC++ Redistributable Package 2022 (can be downloaded from [here](https://github.com/abbodi1406/vcredist/releases))
+
+### Usage:
 
 ```
 vsCnr2 (clip input, string "mode", float "scdthr", int "ln", int "lm", int "un", int "um", int "vn", int "vm", bool "sceneChroma")
 ```
 
-## Parameters:
+### Parameters:
 
 - input\
     A clip to process. It must be in YUV 8..16-bit planar format with chroma subsampling 420, 422, 440 or 444.
@@ -47,26 +53,24 @@ vsCnr2 (clip input, string "mode", float "scdthr", int "ln", int "lm", int "un",
     If True, the chroma is considered in the scene change detection.\
     Default: False.
     
-# Building
+### Building:
 
-## Windows
+- Windows\
+    Use solution files.
 
-Use solution files.
-
-## Linux
-
-### Requirements
-
-- Git
-- C++11 compiler
-- CMake >= 3.16
-
-```
-git clone https://github.com/Asd-g/AviSynth-vsCnr2 && \
-cd AviSynth-vsCnr2 && \
-mkdir build && \
-cd build && \
-cmake .. && \
-make -j$(nproc) && \
-sudo make install
-```
+- Linux
+    ```
+    Requirements:
+        - Git
+        - C++11 compiler
+        - CMake >= 3.16
+    ```
+    ```
+    git clone https://github.com/Asd-g/AviSynth-vsCnr2 && \
+    cd AviSynth-vsCnr2 && \
+    mkdir build && \
+    cd build && \
+    cmake .. && \
+    make -j$(nproc) && \
+    sudo make install
+    ```
