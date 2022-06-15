@@ -24,13 +24,13 @@ vsCnr2 (clip input, string "mode", float "scdthr", int "ln", int "lm", int "un",
 
 - input\
     A clip to process. It must be in YUV 8..16-bit planar format with chroma subsampling 420, 422, 440 or 444.
-    
+
 - mode\
     Mode for each plane.\
     The letter `o` means wide mode, which is less sensitive to changes in the pixels, and more effective.\
     The letter `x` means narrow mode, which is less effective.\
     Default: "oxx".
-    
+
 - scdthr\
     Scene change detection threshold as percentage of maximum possible change.\
     Lower values make it more sensitive.\
@@ -42,17 +42,17 @@ vsCnr2 (clip input, string "mode", float "scdthr", int "ln", int "lm", int "un",
     Higher values will denoise more, at the risk of introducing ghosting in the chroma.\
     Must be between 0 and 255.\
     Default: ln = 35; un = vn = 47.
-    
+
 - lm, um, vm\
     Strength of the denoising.\
     Higher values will denoise harder.\
     Must be between 0 and 255.\
     Default: lm = 192; um = vm = 255.
-    
+
 - sceneChroma\
     If True, the chroma is considered in the scene change detection.\
     Default: False.
-    
+
 ### Building:
 
 - Windows\
@@ -62,7 +62,7 @@ vsCnr2 (clip input, string "mode", float "scdthr", int "ln", int "lm", int "un",
     ```
     Requirements:
         - Git
-        - C++11 compiler
+        - C++17 compiler
         - CMake >= 3.16
     ```
     ```
