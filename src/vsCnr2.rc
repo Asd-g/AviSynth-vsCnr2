@@ -1,14 +1,10 @@
 #include <winver.h>
-#include <ntdef.h>
 
-VS_VERSION_INFO VERSIONINFO
-FILEVERSION             1,0,1,0
-PRODUCTVERSION        	1,0,1,0
+1 VERSIONINFO
+FILEVERSION             1,0,2,0
+PRODUCTVERSION        	1,0,2,0
 FILEFLAGSMASK           VS_FFI_FILEFLAGSMASK
-FILEFLAGS               0x0L
-FILEOS                  VOS__WINDOWS32
 FILETYPE                VFT_DLL
-FILESUBTYPE             VFT2_UNKNOWN
 BEGIN
     BLOCK "StringFileInfo"
     BEGIN
@@ -16,11 +12,11 @@ BEGIN
         BEGIN
         VALUE "Comments",         "Chroma noise reducer."
         VALUE "FileDescription",  "Cnr2 for AviSynth 2.6 / AviSynth+."
-        VALUE "FileVersion",      "1.0.1"
+        VALUE "FileVersion",      "1.0.2"
         VALUE "InternalName",     "vsCnr2"
         VALUE "OriginalFilename", "vsCnr2.dll"
         VALUE "ProductName",      "vsCnr2"
-        VALUE "ProductVersion",   "1.0.1"
+        VALUE "ProductVersion",   "1.0.2"
         END
     END
     BLOCK "VarFileInfo"
