@@ -22,55 +22,50 @@ vsCnr2 (clip input, string "mode", float "scdthr", int "ln", int "lm", int "un",
 
 ### Parameters:
 
-- input\
-    A clip to process. It must be in YUV 8..16-bit planar format with chroma subsampling 420, 422, 440 or 444.
+- input<br>
+    A clip to process.<br>
+    It must be in YUV 8..16-bit planar format with chroma subsampling 420, 422, 440 or 444.
 
-- mode\
-    Mode for each plane.\
-    The letter `o` means wide mode, which is less sensitive to changes in the pixels, and more effective.\
-    The letter `x` means narrow mode, which is less effective.\
+- mode<br>
+    Mode for each plane.<br>
+    The letter `o` means wide mode, which is less sensitive to changes in the pixels, and more effective.<br>
+    The letter `x` means narrow mode, which is less effective.<br>
     Default: "oxx".
 
-- scdthr\
-    Scene change detection threshold as percentage of maximum possible change.\
-    Lower values make it more sensitive.\
-    Must be between 0.0 and 100.0.\
+- scdthr<br>
+    Scene change detection threshold as percentage of maximum possible change.<br>
+    Lower values make it more sensitive.<br>
+    Must be between 0.0 and 100.0.<br>
     Default: 10.0.
 
-- ln, un, vn\
-    Sensitivity to movement in the Y, U, and V planes, respectively.\
-    Higher values will denoise more, at the risk of introducing ghosting in the chroma.\
-    Must be between 0 and 255.\
+- ln, un, vn<br>
+    Sensitivity to movement in the Y, U, and V planes, respectively.<br>
+    Higher values will denoise more, at the risk of introducing ghosting in the chroma.<br>
+    Must be between 0 and 255.<br>
     Default: ln = 35; un = vn = 47.
 
-- lm, um, vm\
-    Strength of the denoising.\
-    Higher values will denoise harder.\
-    Must be between 0 and 255.\
+- lm, um, vm<br>
+    Strength of the denoising.<br>
+    Higher values will denoise harder.<br>
+    Must be between 0 and 255.<br>
     Default: lm = 192; um = vm = 255.
 
-- sceneChroma\
-    If True, the chroma is considered in the scene change detection.\
+- sceneChroma<br>
+    If True, the chroma is considered in the scene change detection.<br>
     Default: False.
 
 ### Building:
 
-- Windows\
-    Use solution files.
-
-- Linux
-    ```
-    Requirements:
-        - Git
-        - C++17 compiler
-        - CMake >= 3.16
-    ```
-    ```
-    git clone https://github.com/Asd-g/AviSynth-vsCnr2 && \
-    cd AviSynth-vsCnr2 && \
-    mkdir build && \
-    cd build && \
-    cmake .. && \
-    make -j$(nproc) && \
-    sudo make install
-    ```
+```
+Requirements:
+- Git
+- C++17 compiler
+- CMake >= 3.25
+- Ninja
+```
+```
+git clone https://github.com/Asd-g/AviSynth-vsCnr2
+cd AviSynth-vsCnr2
+cmake -B build -G Ninja
+ninja -C build
+```
