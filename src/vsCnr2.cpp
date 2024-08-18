@@ -25,7 +25,6 @@ class vsCnr2 : public GenericVideoFilter
     int64_t diff_max;
     bool v8;
     int subsw, subsh;
-    int depth;
     int range_max;
     int64_t shift;
     int64_t shift1;
@@ -134,12 +133,13 @@ template <typename T>
 vsCnr2<T>::vsCnr2(PClip _child, std::string mode, double scdthr, int ln, int lm, int un, int um, int vn, int vm, bool _scenechroma, IScriptEnvironment* env)
     : GenericVideoFilter(_child), scenechroma(_scenechroma), last_frame(0), v8(true)
 {
-    subsw = vi.GetPlaneWidthSubsampling(PLANAR_U);
-    subsh = vi.GetPlaneHeightSubsampling(PLANAR_U);
-    depth = vi.BitsPerComponent();
-
+    const int depth = vi.BitsPerComponent();
     if (vi.IsRGB() || depth == 32 || !vi.IsPlanar() || vi.NumComponents() < 3)
         env->ThrowError("vsCnr2: clip must be in YUV 8..16-bit planar format and must have at least three planes.");
+
+    subsw = vi.GetPlaneWidthSubsampling(PLANAR_U);
+    subsh = vi.GetPlaneHeightSubsampling(PLANAR_U);
+
     if (subsh > 1 || subsw > 1)
         env->ThrowError("vsCnr2: clip must have chroma subsampling 420, 422, 440 or 444.");
     if (mode.size() < 3)
