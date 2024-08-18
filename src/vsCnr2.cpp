@@ -28,7 +28,8 @@ class vsCnr2 : public GenericVideoFilter
     int depth;
     int range_max;
     int64_t shift;
-    int shift1, shift2;
+    int64_t shift1;
+    int shift2;
 
     void downSampleLuma(T* __restrict dstp, PVideoFrame& src) noexcept;
     int processChroma(PVideoFrame dst, PVideoFrame cur, PVideoFrame prev, const T* curp_y, const T* prevp_y) noexcept;
@@ -50,7 +51,7 @@ void vsCnr2<T>::downSampleLuma(T* __restrict dstp_, PVideoFrame& src) noexcept
 {
     const size_t src_stride{ src->GetPitch() / sizeof(T) };
     const size_t dst_width{ src->GetRowSize(PLANAR_U) / sizeof(T) };
-    const int dst_height{ src->GetHeight(PLANAR_U) };   
+    const int dst_height{ src->GetHeight(PLANAR_U) };
 
     auto loop{ [&](int y)
     {
@@ -104,8 +105,8 @@ int vsCnr2<T>::processChroma(PVideoFrame dst, PVideoFrame cur, PVideoFrame prev,
             if (scenechroma)
                 diff_total += abs(diff_u) + abs(diff_v);
 
-            const int weight_u{ table_y[diff_y + range_max] * table_u[diff_u + range_max] };
-            const int weight_v{ table_y[diff_y + range_max] * table_v[diff_v + range_max] };
+            const int64_t weight_u{ table_y[diff_y + range_max] * table_u[diff_u + range_max] };
+            const int64_t weight_v{ table_y[diff_y + range_max] * table_v[diff_v + range_max] };
 
             dstp_u[x] = (weight_u * prevp_u[x] + (shift - weight_u) * curp_u[x] + shift1) >> shift2;
             dstp_v[x] = (weight_v * prevp_v[x] + (shift - weight_v) * curp_v[x] + shift1) >> shift2;
@@ -214,12 +215,11 @@ vsCnr2<T>::vsCnr2(PClip _child, std::string mode, double scdthr, int ln, int lm,
             table_v[j + range_max] = static_cast<int>(vm / 2 * (1 + std::cos(j * M_PI / vn)));
     }
 
-    try { env->CheckVersion(8); }
-    catch (const AvisynthError&) { v8 = false; };
+    v8 = env->FunctionExists("propShow");
 
-    shift = 1 << depth * 2;
-    shift1 = 1 << (depth * 2 - 1);
-    shift2 = depth * 2;
+    shift2 = depth << 1;
+    shift = 1LL << shift2;
+    shift1 = shift >> 1;
 }
 
 template <typename T>
@@ -261,7 +261,7 @@ PVideoFrame __stdcall vsCnr2<T>::GetFrame(int n, IScriptEnvironment* env)
 
     return dst;
 }
-    
+
 AVSValue __cdecl Create_vsCnr2(AVSValue args, void* user_data, IScriptEnvironment* env)
 {
     PClip clip{ args[0].AsClip() };
@@ -294,13 +294,13 @@ AVSValue __cdecl Create_vsCnr2(AVSValue args, void* user_data, IScriptEnvironmen
             env);
 }
 
-const AVS_Linkage *AVS_linkage;
+const AVS_Linkage* AVS_linkage;
 
 extern "C" __declspec(dllexport)
-const char * __stdcall AvisynthPluginInit3(IScriptEnvironment *env, const AVS_Linkage *const vectors)
+const char* __stdcall AvisynthPluginInit3(IScriptEnvironment * env, const AVS_Linkage* const vectors)
 {
     AVS_linkage = vectors;
-    
+
     env->AddFunction("vsCnr2", "c[mode]s[scdthr]f[ln]i[lm]i[un]i[um]i[vn]i[vm]i[sceneChroma]b", Create_vsCnr2, 0);
     return "vsCnr2";
 }
